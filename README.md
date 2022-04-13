@@ -7,7 +7,7 @@
 - ExpressJS
 - PostgreSQL
 
-### Clone the repo
+### Clone the repo `git clone https://github.com/hesbon-osoro/fullstack-banking-app.git` on your terminal
 
 ### install the node_modules using `yarn` command
 
