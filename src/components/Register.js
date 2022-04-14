@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
+import _ from 'lodash';
+import { resetErrors } from '../actions/errors';
 import { validateFields } from '../utils/common';
 import { Link } from 'react-router-dom';
-
+import { registerNewUser } from '../actions/auth';
 class Register extends React.Component {
 	state = {
 		first_name: '',
@@ -15,6 +17,14 @@ class Register extends React.Component {
 		errorMsg: '',
 		isSubmitted: false,
 	};
+	componentDidUpdate(prevProps) {
+		if (!_.isEqual(prevProps.errors, this.props.errors)) {
+			this.setState({ errorMsg: this.props.errors });
+		}
+	}
+	componentWillUnmount() {
+		this.props.dispatch(resetErrors());
+	}
 	registerUser = event => {
 		event.preventDefault();
 		const { first_name, last_name, email, password, cpassword } = this.state;
@@ -43,6 +53,16 @@ class Register extends React.Component {
 				});
 			} else {
 				this.setState({ isSubmitted: true });
+				this.props
+					.dispatch(registerNewUser({ first_name, last_name, email, password }))
+					.then(response => {
+						if (response.success) {
+							this.setState({
+								successMsg: 'User registered successfully.',
+								errorMsg: '',
+							});
+						}
+					});
 			}
 		}
 	};
