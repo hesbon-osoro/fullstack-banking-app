@@ -41,3 +41,5 @@ Router.get('/profile', authMiddleware, async (req, res) => {
 		});
 	}
 });
+
+module.exports = Router;
