@@ -6,6 +6,8 @@
 - Node.js
 - ExpressJS
 - PostgreSQL
+- TypeScript
+- JavaScript
 
 ### Clone the repo `git clone https://github.com/hesbon-osoro/fullstack-banking-app.git` on your terminal
 
