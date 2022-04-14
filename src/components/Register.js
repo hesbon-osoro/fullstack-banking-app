@@ -125,7 +125,7 @@ class Register extends React.Component {
 							/>
 						</Form.Group>
 						<Form.Group controlId="cpassword">
-							<Form.Label>Password</Form.Label>
+							<Form.Label>Confirm Password</Form.Label>
 							<Form.Control
 								type="password"
 								name="cpassword"
@@ -148,4 +148,6 @@ class Register extends React.Component {
 	}
 }
 
-export default connect()(Register);
+const mapStateToProps = state => ({ errors: state.errors });
+
+export default connect(mapStateToProps)(Register);
