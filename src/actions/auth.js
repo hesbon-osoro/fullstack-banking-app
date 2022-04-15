@@ -3,6 +3,7 @@ import axios from 'axios';
 import { getErrors } from './errors';
 import { history } from '../router/AppRouter';
 import { initiateGetProfile } from './profile';
+import { post } from '../utils/api';
 
 export const signIn = user => ({ type: SIGN_IN, user });
 
@@ -45,7 +46,7 @@ export const signOut = () => ({
 export const initiateLogout = () => {
 	return async dispatch => {
 		try {
-			await axios.post(`${BASE_API_URL}/logout`);
+			await post(`${BASE_API_URL}/logout`, true, true);
 			localStorage.removeItem('user_token');
 			return dispatch(signOut);
 		} catch (e) {
