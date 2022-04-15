@@ -3,6 +3,7 @@ const cors = require('cors');
 const authRoute = require('./routes/auth');
 const profileRoute = require('./routes/profile');
 const accountRoute = require('./routes/account');
+const transactionsRoute = require('./routes/transactions');
 require('dotenv').config();
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(authRoute);
 app.use(accountRoute.Router);
 app.use(profileRoute);
+app.use(transactionsRoute);
 app.use('*', (_req, res) => res.json('Page not found.'));
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
