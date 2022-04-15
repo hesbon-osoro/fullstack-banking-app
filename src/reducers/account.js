@@ -1,4 +1,4 @@
-import { SET_ACCOUNT, UPDATE_ACCOUNT } from '../utils/constants';
+import { RESET_ACCOUNT, SET_ACCOUNT, UPDATE_ACCOUNT } from '../utils/constants';
 
 const accountReducer = (state = {}, action) => {
 	switch (action.type) {
@@ -6,6 +6,8 @@ const accountReducer = (state = {}, action) => {
 			return {
 				...action.accountDetails.account,
 			};
+		case RESET_ACCOUNT:
+			return {};
 		case UPDATE_ACCOUNT:
 			if (action.operation === 'withdraw') {
 				return {
