@@ -9,4 +9,11 @@ const pool = new Pool({
 	database: process.env.POSTGRES_DATABASE,
 });
 
-module.exports = { pool };
+const getClient = async () => {
+	try {
+		return await pool.connect();
+	} catch (e) {
+		return null;
+	}
+};
+module.exports = { pool, getClient };
