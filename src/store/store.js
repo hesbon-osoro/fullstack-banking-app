@@ -4,6 +4,7 @@ import authReducer from '../reducers/auth';
 import errorsReducer from '../reducers/errors';
 import profileReducer from '../reducers/profile';
 import accountReducer from '../reducers/account';
+import transactionsReducer from '../reducers/transactions';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -13,6 +14,7 @@ const store = createStore(
 		errors: errorsReducer,
 		profile: profileReducer,
 		account: accountReducer,
+		transactions: transactionsReducer,
 	}),
 	composeEnhancers(applyMiddleware(thunk))
 );
