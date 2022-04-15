@@ -92,8 +92,8 @@ class Register extends React.Component {
 							<Form.Label>First name</Form.Label>
 							<Form.Control
 								type="text"
-								name="last_name"
-								placeholder="Enter last name"
+								name="first_name"
+								placeholder="Enter first name"
 								onChange={this.handleInputChange}
 							/>
 						</Form.Group>
