@@ -48,7 +48,7 @@ export const initiateLogout = () => {
 		try {
 			await post(`${BASE_API_URL}/logout`, true, true);
 			localStorage.removeItem('user_token');
-			return dispatch(signOut);
+			return dispatch(signOut());
 		} catch (e) {
 			e.response && dispatch(getErrors(e.response.data));
 		}
