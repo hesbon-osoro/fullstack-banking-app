@@ -4,6 +4,7 @@ import { getErrors } from './errors';
 import { history } from '../router/AppRouter';
 import { initiateGetProfile } from './profile';
 import { post } from '../utils/api';
+import { resetAccount } from './account';
 
 export const signIn = user => ({ type: SIGN_IN, user });
 
@@ -48,6 +49,7 @@ export const initiateLogout = () => {
 		try {
 			await post(`${BASE_API_URL}/logout`, true, true);
 			localStorage.removeItem('user_token');
+			dispatch(resetAccount());
 			return dispatch(signOut());
 		} catch (e) {
 			e.response && dispatch(getErrors(e.response.data));
