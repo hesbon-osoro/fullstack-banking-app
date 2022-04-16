@@ -1,8 +1,6 @@
-import jwt_decode from 'jwt-decode';
 import store from '../store/store';
 import { initiateGetProfile } from '../actions/profile';
 import { signIn } from '../actions/auth';
-import { history } from '../router/AppRouter';
 import Axios from 'axios';
 
 export const validateFields = fieldsToValidate => {
