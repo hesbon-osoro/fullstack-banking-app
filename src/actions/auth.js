@@ -1,5 +1,4 @@
 import { SIGN_IN, BASE_API_URL, SIGN_OUT } from '../utils/constants';
-import axios from 'axios';
 import { getErrors } from './errors';
 import { history } from '../router/AppRouter';
 import { initiateGetProfile } from './profile';
@@ -11,7 +10,7 @@ export const signIn = user => ({ type: SIGN_IN, user });
 export const initiateLogin = (email, password) => {
 	return async dispatch => {
 		try {
-			const result = await axios.post(`${BASE_API_URL}/signin`, {
+			const result = await post(`${BASE_API_URL}/signin`, {
 				email,
 				password,
 			});
@@ -30,7 +29,7 @@ export const initiateLogin = (email, password) => {
 export const registerNewUser = data => {
 	return async dispatch => {
 		try {
-			await axios.post(`${BASE_API_URL}/signup`, data);
+			await post(`${BASE_API_URL}/signup`, data);
 			return { success: true };
 		} catch (error) {
 			console.log(`Error: ${error}`);
@@ -47,8 +46,7 @@ export const signOut = () => ({
 export const initiateLogout = () => {
 	return async dispatch => {
 		try {
-			await post(`${BASE_API_URL}/logout`, true, true);
-			localStorage.removeItem('user_token');
+			await post(`${BASE_API_URL}/logout`);
 			dispatch(resetAccount());
 			return dispatch(signOut());
 		} catch (e) {
