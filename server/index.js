@@ -5,10 +5,18 @@ const profileRoute = require('./routes/profile');
 const accountRoute = require('./routes/account');
 const transactionsRoute = require('./routes/transactions');
 require('dotenv').config();
+const csrf = require('csurf');
+
+const csrfProtection = csrf({ cookie: true });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.use(csrfProtection);
+
+app.get('/csrf-token', (req, res) => {
+	res.send({ csrfToken: req.csrfToken() });
+});
 app.use(express.json());
 app.use(cookieParser());
 app.set('view engine', 'ejs');
