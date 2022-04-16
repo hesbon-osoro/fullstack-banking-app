@@ -23,3 +23,4 @@
 - How to perform CRUD operations in PostgreSQL from Node.js
 - How to dynamically generate pdf to get list of transactions within selected date range
 - How to automatically download any type of file including pdf file. ...
+- Making the application secure from XSS and CSRF attacks by avoiding use of local storage for storing JWT token
