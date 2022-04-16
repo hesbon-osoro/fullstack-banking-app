@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const authRoute = require('./routes/auth');
 const profileRoute = require('./routes/profile');
 const accountRoute = require('./routes/account');
@@ -9,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
+app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.use(authRoute);
 app.use(accountRoute.Router);
