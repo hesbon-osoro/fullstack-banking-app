@@ -1,11 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Switch, Router } from 'react-router-dom';
 import Login from '../components/Login';
 import Register from '../components/Register';
 import Profile from '../components/Profile';
 import { createBrowserHistory } from 'history';
-import Header from '../components/Header';
 import Logout from '../components/Logout';
 import Account from '../components/Account';
 import PrivateRoute from './PrivateRoute';
