@@ -30,8 +30,6 @@ app.get('/csrf-token', (req, res) => {
 app.get('/', (_, res) => res.json('Welcome to the Banking app APIs'));
 
 // 404
-app.use('*', (_, res) => {
-	res.json('Oops!\nPage not found!');
-});
+app.use('*', (_, res) => res.json('Page not found!'));
 
 app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
