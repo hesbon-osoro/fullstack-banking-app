@@ -120,11 +120,9 @@ Router.get('/download/:id', authMiddleware, async (req, res) => {
 		res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdfSize });
 		res.sendFile(path.join(basePath, 'transactions.pdf'));
 	} catch (e) {
-		res
-			.status(400)
-			.json({
-				transactions_error: 'Error while downloading...Try again later.',
-			});
+		res.status(400).json({
+			transactions_error: 'Error while downloading...Try again later.',
+		});
 	}
 });
 
