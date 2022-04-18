@@ -122,7 +122,7 @@ Router.get('/download/:id', authMiddleware, async (req, res) => {
 		});
 		// res.sendFile(path.join(basePath, 'transactions.html'))
 		const pdfSize = await generatePDF(basePath);
-		res.set({ 'Content-Type': 'application/pdf', 'Content-length': pdfSize });
+		res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdfSize });
 		res.sendFile(path.join(basePath, 'transactions.pdf'));
 	} catch (error) {
 		res.status(400).send({
