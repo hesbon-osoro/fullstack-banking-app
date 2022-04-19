@@ -1,0 +1,17 @@
+/* table css */
+.report-table {
+	margin-bottom: 3rem;
+}
+
+.pagination {
+	background-color: #d9c2ac;
+}
+.active-pagination {
+	background-color: inherit;
+	border-color: inherit;
+	color: #fff;
+	outline: none;
+}
+.active-pagination:focus {
+	box-shadow: none;
+}
