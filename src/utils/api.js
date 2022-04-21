@@ -5,7 +5,7 @@ import { addCSRFToken } from './common';
 
 export const get = async (url, params) => {
 	try {
-		const token = await getCSRFToken();
+		const token = await addCSRFToken();
 		axios.defaults.headers['X-CSRF-TOken'] = token;
 		const result = await axios.get(url, params);
 		store.dispatch(signIn({ isAuthenticated: true }));
