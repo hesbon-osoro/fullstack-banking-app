@@ -15,7 +15,7 @@ const Logout = props => {
 	useEffect(() => {
 		processOnMount();
 	}, [processOnMount]);
-	
+
 	return null;
 };
 

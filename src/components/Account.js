@@ -52,4 +52,4 @@ const Account = () => {
 	);
 };
 
-export default connect(Account);
+export default connect()(Account);
