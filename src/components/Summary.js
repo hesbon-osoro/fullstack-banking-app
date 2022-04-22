@@ -53,7 +53,7 @@ const Summary = props => {
 		const convertedEndDate = moment(endDate).format('YYYY-MM-DD');
 		const { account } = props;
 		props.dispatch(
-			initiateGetTransactions(account, convertedStartDate, convertedEndDate)
+			initiateGetTransactions(account.account_id, convertedStartDate, convertedEndDate)
 		);
 	};
 
