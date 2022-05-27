@@ -10,6 +10,6 @@
 
 ### Setup local postgres user and create a database called `bank_account`.
 
-### Copy the Postgres scripts from  [`scripts.sql`](/scripts.sql) to create relevant database tables.
+### Copy the Postgres scripts from  [`scripts.sql`](/server/scripts.sql) to create relevant database tables.
 
 ### Put the postgres credentials in the .env file `DO NOT COMMIT THE .env FILE`
