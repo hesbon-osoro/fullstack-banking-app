@@ -15,7 +15,7 @@
 
 ### start the app using `yarn start` command
 
-### Go to the server folder and do the necessary setups
+### Go to the [`server`](/server) folder and do the necessary setups
 
 ## Lessons covered
 
