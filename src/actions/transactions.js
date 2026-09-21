@@ -50,7 +50,12 @@ export const setTransactions = transactions => ({
 	transactions,
 });
 
-export const initiateGetTransactions = (account_id, start_date, end_date) => {
+export const initiateGetTransactions = (
+	account_id,
+	start_date,
+	end_date,
+	pagination
+) => {
 	return async dispatch => {
 		try {
 			let query;
@@ -59,10 +64,22 @@ export const initiateGetTransactions = (account_id, start_date, end_date) => {
 			} else {
 				query = `${BASE_API_URL}/transactions/${account_id}`;
 			}
+			if (pagination) {
+				const separator = query.includes('?') ? '&' : '?';
+				query += `${separator}page=${pagination.page}&limit=${pagination.limit}`;
+			}
 			const profile = await get(query);
+			// A paginated response is { data, pagination }; an unpaginated
+			// one is still a bare array, so both shapes are accepted.
+			if (pagination) {
+				dispatch(setTransactions(profile.data.data));
+				return profile.data.pagination;
+			}
 			dispatch(setTransactions(profile.data));
+			return null;
 		} catch (error) {
 			error.response && dispatch(getErrors(error.response.data));
+			return null;
 		}
 	};
 };

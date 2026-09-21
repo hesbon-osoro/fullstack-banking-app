@@ -10,9 +10,13 @@ import {
 } from '../actions/transactions';
 import { initiateAddAccntDetails } from '../actions/account';
 import Report from './Report';
+import TransactionPagination from './TransactionPagination';
 import { maskNumber } from '../utils/mask';
 import { resetErrors } from '../actions/errors';
 import AddAccountForm from './AddAccountForm';
+
+// Must stay within the server's MAX_PAGE_SIZE (100).
+const PAGE_SIZE = 25;
 
 class Summary extends React.Component {
 	state = {
@@ -22,6 +26,8 @@ class Summary extends React.Component {
 		isDownloading: false,
 		formSubmitted: false,
 		errorMsg: '',
+		pagination: null,
+		isLoadingTransactions: false,
 	};
 
 	componentDidUpdate(prevProps) {
@@ -52,14 +58,39 @@ class Summary extends React.Component {
 		const convertedStartDate = moment(startDate).format('YYYY-MM-DD');
 		const convertedEndDate = moment(endDate).format('YYYY-MM-DD');
 
+		// A new date range always starts from page 1; keeping the previous
+		// page number here could request a page that no longer exists.
+		this.fetchTransactions(1, convertedStartDate, convertedEndDate);
+	};
+
+	fetchTransactions = (page, startDate, endDate) => {
 		const { account } = this.props;
-		this.props.dispatch(
-			initiateGetTransactions(
-				account.account_id,
-				convertedStartDate,
-				convertedEndDate
+		const convertedStartDate =
+			startDate || moment(this.state.startDate).format('YYYY-MM-DD');
+		const convertedEndDate =
+			endDate || moment(this.state.endDate).format('YYYY-MM-DD');
+
+		this.setState({ isLoadingTransactions: true });
+
+		return this.props
+			.dispatch(
+				initiateGetTransactions(
+					account.account_id,
+					convertedStartDate,
+					convertedEndDate,
+					{ page, limit: PAGE_SIZE }
+				)
 			)
-		);
+			.then(pagination => {
+				this.setState({ pagination, isLoadingTransactions: false });
+			});
+	};
+
+	handlePageChange = page => {
+		const { pagination } = this.state;
+		if (page < 1) return;
+		if (pagination && page > pagination.total_pages) return;
+		this.fetchTransactions(page);
 	};
 
 	downloadReport = (account_id, start_date, end_date) => {
@@ -85,6 +116,8 @@ class Summary extends React.Component {
 			isDownloading,
 			formSubmitted,
 			errorMsg,
+			pagination,
+			isLoadingTransactions,
 		} = this.state;
 		const account_no = account.account_no ? maskNumber(account.account_no) : '';
 
@@ -152,11 +185,17 @@ class Summary extends React.Component {
 									{moment(endDate).format('Do MMMM YYYY')}
 								</h5>
 								<Report transactions={transactions} />
+								<TransactionPagination
+									pagination={pagination}
+									onPageChange={this.handlePageChange}
+									isLoading={isLoadingTransactions}
+								/>
 							</React.Fragment>
 						)}
 					</div>
 				) : (
 					formSubmitted &&
+					!isLoadingTransactions &&
 					_.isEmpty(errorMsg) && (
 						<p>No transactions found within selected date range.</p>
 					)
