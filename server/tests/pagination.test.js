@@ -49,7 +49,6 @@ describe('parsePagination', () => {
 		expect(parsePagination(undefined, undefined)).toEqual({
 			page: 1,
 			limit: 25,
-			offset: 0,
 		});
 	});
 
@@ -71,11 +70,6 @@ describe('parsePagination', () => {
 
 	it('clamps an oversized limit to the maximum page size', () => {
 		expect(parsePagination('1', '100000').limit).toBe(100);
-	});
-
-	it('computes offset from page and limit', () => {
-		expect(parsePagination('4', '25').offset).toBe(75);
-		expect(parsePagination('1', '10').offset).toBe(0);
 	});
 });
 
@@ -147,6 +141,16 @@ describe('GET /transactions/:id pagination', () => {
 		const [sql, params] = pool.query.mock.calls[1];
 		expect(sql).toContain('limit $2 offset $3');
 		expect(params).toEqual(['7', 10, 20]);
+	});
+
+	it('derives the offset from the page number as (page - 1) * limit', async () => {
+		stubCountThenRows(500, []);
+
+		await getWithCookie('/transactions/7?page=5&limit=25');
+
+		const [, params] = pool.query.mock.calls[1];
+		// page 5, limit 25 -> skip 100 rows
+		expect(params).toEqual(['7', 25, 100]);
 	});
 
 	it('keeps the date filter in both the count and the page query', async () => {

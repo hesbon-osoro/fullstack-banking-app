@@ -59,7 +59,6 @@ const parsePagination = (rawPage, rawLimit) => {
 	return {
 		page: safePage,
 		limit: safeLimit,
-		offset: (safePage - 1) * safeLimit,
 	};
 };
 
@@ -106,10 +105,13 @@ const getTransactionsPage = async (
 	);
 	const total = countResult.rows[0] ? countResult.rows[0].total : 0;
 
-	const result = await pool.query(
-		`select ${columns} from transactions ${where} order by transaction_date desc, tr_id desc limit $${filters.length + 1} offset $${filters.length + 2}`,
-		[...filters, limit, offset]
-	);
+	// Placeholders continue after the filter parameters, so the same `where`
+	// clause and parameter numbering can be shared by both queries.
+	const limitPlaceholder = `$${filters.length + 1}`;
+	const offsetPlaceholder = `$${filters.length + 2}`;
+	const pageQuery = `select ${columns} from transactions ${where} order by transaction_date desc, tr_id desc limit ${limitPlaceholder} offset ${offsetPlaceholder}`;
+
+	const result = await pool.query(pageQuery, [...filters, limit, offset]);
 
 	return { rows: result.rows, total };
 };
