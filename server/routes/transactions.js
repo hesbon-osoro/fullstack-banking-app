@@ -84,7 +84,7 @@ Router.post('/withdraw/:id', authMiddleware, async (req, res) => {
 });
 
 Router.get('/transactions/:id', authMiddleware, async (req, res) => {
-	const { start_date, end_date } = req.body;
+	const { start_date, end_date } = req.query;
 	try {
 		const result = await getTransactions(req.params.id, start_date, end_date);
 		res.send(result.rows);
