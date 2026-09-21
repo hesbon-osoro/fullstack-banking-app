@@ -5,10 +5,13 @@
 	"license": "MIT",
 	"scripts": {
 		"format": "prettier --write .",
-		"start": "nodemon index.js"
+		"start": "nodemon index.js",
+		"test": "jest"
 	},
 	"devDependencies": {
-		"prettier": "^2.6.2"
+		"jest": "^30.5.2",
+		"prettier": "^2.6.2",
+		"supertest": "^7.2.2"
 	},
 	"dependencies": {
 		"axios": "0.19.2",
