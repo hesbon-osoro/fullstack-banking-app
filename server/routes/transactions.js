@@ -1,7 +1,13 @@
 const express = require('express');
 const authMiddleware = require('../middleware/auth');
 const { getClient } = require('../db/connect');
-const { getTransactions, generatePDF } = require('../utils/common');
+const {
+	getTransactions,
+	getTransactionsPage,
+	parsePagination,
+	buildPaginationMeta,
+	generatePDF,
+} = require('../utils/common');
 const path = require('path');
 const ejs = require('ejs');
 const fs = require('fs');
@@ -84,10 +90,28 @@ Router.post('/withdraw/:id', authMiddleware, async (req, res) => {
 });
 
 Router.get('/transactions/:id', authMiddleware, async (req, res) => {
-	const { start_date, end_date } = req.query;
+	const { start_date, end_date, page, limit } = req.query;
 	try {
-		const result = await getTransactions(req.params.id, start_date, end_date);
-		res.send(result.rows);
+		// Pagination is opt-in. A caller that sends no `page` or `limit`
+		// keeps receiving a bare array, so existing clients are unaffected.
+		if (page === undefined && limit === undefined) {
+			const result = await getTransactions(req.params.id, start_date, end_date);
+			return res.send(result.rows);
+		}
+
+		const pagination = parsePagination(page, limit);
+		const { rows, total } = await getTransactionsPage(
+			req.params.id,
+			start_date,
+			end_date,
+			pagination.page,
+			pagination.limit
+		);
+
+		res.send({
+			data: rows,
+			pagination: buildPaginationMeta(total, pagination.page, pagination.limit),
+		});
 	} catch (error) {
 		res.status(400).send({
 			transactions_error:

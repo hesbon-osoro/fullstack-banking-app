@@ -12,7 +12,11 @@ html {
 }
 
 body {
-	font-family: Nunito, Helvetica Neue, Helvetica, sans-serif;
+	font-family:
+		Nunito,
+		Helvetica Neue,
+		Helvetica,
+		sans-serif;
 	font-size: 20px;
 	background: #d9c2ac;
 	color: #454141;
@@ -184,6 +188,16 @@ input[type='submit'],
 }
 .report-table {
 	margin-bottom: 3rem;
+}
+.transaction-pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+
+	.pagination-status {
+		letter-spacing: initial;
+	}
 }
 
 %pagination {
